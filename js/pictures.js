@@ -1,3 +1,5 @@
+import { showBigPicture } from './add-picture.js';
+
 const picturesListElement = document.querySelector('.pictures');
 
 const photoTemplate = document.querySelector('#picture')
@@ -6,7 +8,7 @@ const photoTemplate = document.querySelector('#picture')
 
 const picturesFragment = document.createDocumentFragment();
 
-const addPictureTopicturesFragment = function(picture, documentFragment) {
+const addPictureTopicturesFragment = (picture) => {
   const { url, likes, comments } = picture;
   const pictureElement = photoTemplate.cloneNode(true);
 
@@ -14,11 +16,18 @@ const addPictureTopicturesFragment = function(picture, documentFragment) {
   pictureElement.querySelector('.picture__likes').textContent = likes;
   pictureElement.querySelector('.picture__comments').textContent = comments.length;
 
-  documentFragment.appendChild(pictureElement);
+  pictureElement.addEventListener('click', (evt) => {
+    evt.preventDefault();
+    showBigPicture(picture);
+  });
+
+  picturesFragment.appendChild(pictureElement);
 };
 
-const renderPictures = function(pictures) {
-  pictures.forEach((picture) => { addPictureTopicturesFragment(picture, picturesFragment); } );
+const renderPictures = (pictures) => {
+  pictures.forEach((picture) => {
+    addPictureTopicturesFragment(picture, picturesFragment);
+  } );
   picturesListElement.appendChild(picturesFragment);
 };
 
