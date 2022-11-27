@@ -29,7 +29,7 @@ validator.addValidator(
   hashtagInput,
   (value) => {
     const setOfHashtags = new Set();
-    const regex = /(^#[A-z0-9]{1,19}$)/i;
+    const regex = /(^#[A-z0-9А-я]{1,19}$)/i;
     const hashtags  = value.replace(/\s+/g, ' ').trim().split(' ');
     hashtags.forEach((hashtag) => {
       setOfHashtags.add(hashtag.toLowerCase());
@@ -60,4 +60,4 @@ document.addEventListener('keydown', (evt) => {
   ) { closeEditor(); }
 });
 
-
+export { closeEditor };
