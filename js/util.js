@@ -12,8 +12,8 @@ const checkMaxStringLength = (str, maxLength) => typeof(str) === 'string' && str
 checkMaxStringLength(123, 5);
 
 const buildComments = () => {
-  const countOfElenets = getRandonIntegerInterval(1, 5);
-  return Array.from({length: countOfElenets}).map((_, index) => ({
+  const countOfElemets = getRandonIntegerInterval(1, 30);
+  return Array.from({length: countOfElemets}).map((_, index) => ({
     id: index + 1,
     avatar: `img/avatar-${getRandonIntegerInterval(1, 6)}.svg`,
     message: MESSAGES[getRandonIntegerInterval(0, MESSAGES.length - 1)],
