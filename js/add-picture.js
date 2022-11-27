@@ -5,6 +5,10 @@ const descriptionElement = fullImageElement.querySelector('.social__caption');
 const commentsElement = fullImageElement.querySelector('.social__comments');
 const commentsCountElement = fullImageElement.querySelector('.comments-count');
 const closeButton = document.querySelector('#picture-cancel');
+const currentCommentsCounter = document.querySelector('span.social__comment-count');
+const commentsLoader = document.querySelector('.comments-loader');
+
+let numberLastComment = 0;
 
 const commentTemplate  = document.querySelector('#comment')
   .content
@@ -13,6 +17,8 @@ const commentTemplate  = document.querySelector('#comment')
 const closeBigPhoto = () => {
   fullImageElement.classList.add('hidden');
   document.body.classList.remove('modal-open');
+  numberLastComment = 0;
+  commentsElement.innerHTML = '';
 };
 
 document.addEventListener('keydown', (evt) => { if (evt.key === 'Escape') { closeBigPhoto(); }});
@@ -20,9 +26,8 @@ document.addEventListener('keydown', (evt) => { if (evt.key === 'Escape') { clos
 closeButton.addEventListener('click', () => { closeBigPhoto(); });
 
 const renderComments = (comments) => {
-  commentsElement.innerHTML = '';
-
-  comments.forEach(({avatar, name, message}) => {
+  for (let i = numberLastComment; i < Math.min(comments.length, numberLastComment + 5); i++) {
+    const { avatar, name, message } = comments[i];
     const commentElement = commentTemplate.cloneNode(true);
 
     commentElement.querySelector('.social__picture').src = avatar;
@@ -30,7 +35,9 @@ const renderComments = (comments) => {
     commentElement.querySelector('.social__text').textContent = message;
 
     commentsElement.appendChild(commentElement);
-  });
+  }
+  numberLastComment = Math.min(comments.length, numberLastComment + 5);
+  currentCommentsCounter.textContent = numberLastComment;
 };
 
 const showBigPicture = (picture) => {
@@ -43,10 +50,9 @@ const showBigPicture = (picture) => {
   commentsCountElement.textContent = comments.length;
   descriptionElement.textContent = description;
 
+  commentsElement.innerHTML = '';
   renderComments(comments);
-
-  document.querySelector('.social__comment-count').classList.add('hidden');
-  document.querySelector('.comments-loader').classList.add('hidden');
+  commentsLoader.onclick = () => { renderComments(comments); };
 };
 
 export { showBigPicture };
