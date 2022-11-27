@@ -17,7 +17,7 @@ const closeBigPhoto = () => {
 
 document.addEventListener('keydown', (evt) => { if (evt.key === 'Escape') { closeBigPhoto(); }});
 
-closeButton.addEventListener('click', (evt) => { closeBigPhoto(); });
+closeButton.addEventListener('click', () => { closeBigPhoto(); });
 
 const renderComments = (comments) => {
   commentsElement.innerHTML = '';
