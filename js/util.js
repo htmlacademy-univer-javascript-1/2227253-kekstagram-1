@@ -21,4 +21,4 @@ const buildComments = () => {
   }));
 };
 
-export { getRandonIntegerInterval, buildComments };
+export { getRandonIntegerInterval, buildComments, checkMaxStringLength };
