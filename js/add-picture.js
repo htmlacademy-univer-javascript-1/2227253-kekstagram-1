@@ -15,14 +15,9 @@ const closeBigPhoto = () => {
   document.body.classList.remove('modal-open');
 };
 
-document.addEventListener('keydown', (evt) => {
-  evt.preventDefault();
-  if (evt.key === 'Escape') { closeBigPhoto(); }
-});
-closeButton.addEventListener('click', (evt) => {
-  evt.preventDefault();
-  closeBigPhoto();
-});
+document.addEventListener('keydown', (evt) => { if (evt.key === 'Escape') { closeBigPhoto(); }});
+
+closeButton.addEventListener('click', (evt) => { closeBigPhoto(); });
 
 const renderComments = (comments) => {
   commentsElement.innerHTML = '';
