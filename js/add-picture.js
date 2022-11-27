@@ -7,8 +7,12 @@ const commentsCountElement = fullImageElement.querySelector('.comments-count');
 const closeButton = document.querySelector('#picture-cancel');
 const currentCommentsCounter = document.querySelector('span.social__comment-count');
 const commentsLoader = document.querySelector('.comments-loader');
+const scaleControlValue = document.querySelector('.scale__control--value');
+const imgPreview = document.querySelector('.img-upload__preview');
 
 let numberLastComment = 0;
+scaleControlValue.value = '100%';
+imgPreview.style.transform = 'scale(1)';
 
 const commentTemplate  = document.querySelector('#comment')
   .content
@@ -54,5 +58,6 @@ const showBigPicture = (picture) => {
   renderComments(comments);
   commentsLoader.onclick = () => { renderComments(comments); };
 };
+
 
 export { showBigPicture };
