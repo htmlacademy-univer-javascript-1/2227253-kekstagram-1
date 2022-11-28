@@ -8,6 +8,7 @@ const photoTemplate = document.querySelector('#picture')
 
 const picturesFragment = document.createDocumentFragment();
 
+
 const addPictureTopicturesFragment = (picture) => {
   const { url, likes, comments } = picture;
   const pictureElement = photoTemplate.cloneNode(true);

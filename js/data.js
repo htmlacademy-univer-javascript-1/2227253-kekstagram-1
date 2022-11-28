@@ -17,4 +17,87 @@ const photos = Array.from({length:25}).map((_, index) => ({
   comments: buildComments()
 }));
 
-export { MESSAGES, photos };
+const effects = [
+  'None',  'effects__preview--sepia',
+  'effects__preview--marvin',  'effects__preview--phobos',
+  'effects__preview--heat',  'effects__preview--chrome',
+] ;
+
+const effectsParams = {
+  'sepia': {
+    'noui': {
+      range: {
+        'min': 0,
+        'max': 1,
+      },
+      step: 0.1,
+      format: {
+        from: (value) => parseFloat(value).toFixed(1),
+        to: (value) => value
+      },
+      start: 0
+    },
+    filter: (value) => `sepia(${value})`
+  },
+  'chrome': {
+    'noui': {
+      range: {
+        'min': 0,
+        'max': 1,
+      },
+      step: 0.1,
+      format: {
+        from: (value) => parseFloat(value).toFixed(1),
+        to: (value) => value
+      },
+      start: 0
+    },
+    filter: (value) => `grayscale(${value})`
+  },
+  'marvin': {
+    'noui': {
+      range: {
+        'min': 0,
+        'max': 100,
+      },
+      step: 1,
+      format: {
+        from: (value) => parseInt(value, 10),
+        to: (value) => `${value}%`
+      },
+      start: 1
+    },
+    filter: (value) => `invert(${value})`
+  },
+  'phobos': {
+    'noui': {
+      range: {
+        'min': 0,
+        'max': 3,
+      },
+      format: {
+        from: (value) => parseFloat(value).toFixed(1),
+        to: (value) => `${parseFloat(value).toFixed(1)}px`
+      },
+      step: 0.1,
+      start: 0
+    },
+    filter: (value) => `blur(${value})`
+  }, 'heat': {
+    'noui': {
+      range: {
+        'min': 1,
+        'max': 3,
+      },
+      step: 0.1,
+      format: {
+        from: (value) => parseFloat(value).toFixed(1),
+        to: (value) => value
+      },
+      start: 0
+    },
+    filter: (value) => `brightness(${value})`
+  }
+};
+
+export { MESSAGES, photos, effects, effectsParams };
