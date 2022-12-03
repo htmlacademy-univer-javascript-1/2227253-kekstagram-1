@@ -164,10 +164,11 @@ closephotoEditorButtom.addEventListener('click', closeEditor);
 document.addEventListener('keydown', (evt) => {
   if (evt.key === 'Escape') {
     const errorBlock = document.body.querySelector('.error');
-    if (errorBlock) {
-      document.body.removeChild(errorBlock);
-    } else if (
-      document.activeElement.tagName !== 'INPUT' &&
+    const successBlock = document.body.querySelector('.success');
+    if (errorBlock) { document.body.removeChild(errorBlock); }
+    else if (successBlock) { document.body.removeChild(successBlock); closeEditor(); }
+    else if (
+      document.activeElement.className !== 'text__hashtags' &&
       document.activeElement.tagName !== 'TEXTAREA'
     ) {
       closeEditor();
