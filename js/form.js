@@ -1,4 +1,5 @@
 import { effects, effectsParams } from './data.js';
+import { sendData } from './api.js';
 
 const uploadFile = document.querySelector('#upload-file');
 const photoEditor = document.querySelector('.img-upload__overlay');
@@ -15,6 +16,7 @@ const sliderElement = document.querySelector('.effect-level__slider');
 const effectLevelValue = document.querySelector('.effect-level__value');
 const effectsInputs = document.querySelectorAll('.effects__radio');
 const effectLevel = document.querySelector('.img-upload__effect-level');
+const errorSubmitText = document.querySelector('.error_submit');
 
 effectLevel.classList.add('hidden');
 let activeFilter = 'none';
@@ -56,6 +58,16 @@ effectsInputs.forEach((input) => {
   });
 });
 
+submitFormButton.addEventListener(
+  'click', (evt) => {
+    evt.preventDefault();
+    // errorTextBox = document.querySelector('.img-upload__field-wrapper');
+    sendData(
+      () => {
+        errorSubmitText.classList.remove('hidden');
+      }
+      , new FormData(form));
+})
 
 const validator = new Pristine(
   form,
@@ -130,5 +142,6 @@ scaleControlBigger.addEventListener(
     imgPreview.style.transform = `scale(${newValue / 100})`;
   }
 );
+
 
 export { closeEditor };

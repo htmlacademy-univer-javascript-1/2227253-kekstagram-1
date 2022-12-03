@@ -17,6 +17,14 @@ const photos = Array.from({length:25}).map((_, index) => ({
   comments: buildComments()
 }));
 
+const errorPhotos = Array.from({length:25}).map((_, index) => ({
+  id: index + 1,
+  url: 'photos/error.jpg',
+  description: 'Ошибка загрузки фотографии',
+  likes: '-',
+  comments: []
+}));
+
 const effects = [
   'None',  'effects__preview--sepia',
   'effects__preview--marvin',  'effects__preview--phobos',
@@ -100,4 +108,4 @@ const effectsParams = {
   }
 };
 
-export { MESSAGES, photos, effects, effectsParams };
+export { MESSAGES, photos, effects, effectsParams, errorPhotos };
