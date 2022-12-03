@@ -108,7 +108,6 @@ const createErrorBlock = (text) => {
     (evt) => {
       if (evt.target.className !== 'error__inner' && evt.target.className !== 'error__title') {
         document.body.removeChild(errorCopy);
-        closeEditor();
       }
     });
   document.body.appendChild(errorCopy);
