@@ -1405,6 +1405,9 @@ main {
   overflow: hidden;
 }
 
+.img-upload__field-wrapper {
+  color: #ba3939;
+}
 
 .hidden {
   display: none;
