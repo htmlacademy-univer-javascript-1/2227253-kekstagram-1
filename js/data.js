@@ -26,7 +26,7 @@ const errorPhotos = Array.from({length:25}).map((_, index) => ({
 }));
 
 const effects = [
-  'None',  'effects__preview--sepia',
+  'none',  'effects__preview--sepia',
   'effects__preview--marvin',  'effects__preview--phobos',
   'effects__preview--heat',  'effects__preview--chrome',
 ] ;
@@ -43,7 +43,7 @@ const effectsParams = {
         from: (value) => parseFloat(value).toFixed(1),
         to: (value) => value
       },
-      start: 0
+      start: 1
     },
     filter: (value) => `sepia(${value})`
   },
@@ -58,7 +58,7 @@ const effectsParams = {
         from: (value) => parseFloat(value).toFixed(1),
         to: (value) => value
       },
-      start: 0
+      start: 1
     },
     filter: (value) => `grayscale(${value})`
   },
@@ -73,7 +73,7 @@ const effectsParams = {
         from: (value) => parseInt(value, 10),
         to: (value) => `${value}%`
       },
-      start: 1
+      start: 100
     },
     filter: (value) => `invert(${value})`
   },
@@ -88,7 +88,7 @@ const effectsParams = {
         to: (value) => `${parseFloat(value).toFixed(1)}px`
       },
       step: 0.1,
-      start: 0
+      start: 3
     },
     filter: (value) => `blur(${value})`
   }, 'heat': {
@@ -102,7 +102,7 @@ const effectsParams = {
         from: (value) => parseFloat(value).toFixed(1),
         to: (value) => value
       },
-      start: 0
+      start: 3
     },
     filter: (value) => `brightness(${value})`
   }

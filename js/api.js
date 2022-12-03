@@ -7,7 +7,7 @@ const getData = (render) => {
     catch(() => render(errorPhotos));
 };
 
-const sendData = (onFail, body) => {
+const sendData = (onFail, onSuccess, body) => {
   fetch(
     'https://26.javascript.pages.academy/kekstagram',
     {
@@ -17,11 +17,17 @@ const sendData = (onFail, body) => {
   )
     .then((response) => {
       if (!response.ok) {
-        onFail('Не удалось отправить форму. Попробуйте ещё раз');
+        if (response.status === 400) {
+          onFail('Неверный формат файла!');
+        } else {
+          onFail('Данные не отправлены!');
+        }
+      } else {
+        onSuccess();
       }
     })
     .catch(() => {
-      onFail('Не удалось отправить форму. Попробуйте ещё раз');
+      onFail('Данные не отправлены!');
     });
 };
 

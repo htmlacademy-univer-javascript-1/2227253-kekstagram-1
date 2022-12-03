@@ -16,7 +16,9 @@ const sliderElement = document.querySelector('.effect-level__slider');
 const effectLevelValue = document.querySelector('.effect-level__value');
 const effectsInputs = document.querySelectorAll('.effects__radio');
 const effectLevel = document.querySelector('.img-upload__effect-level');
-const errorSubmitText = document.querySelector('.error_submit');
+const errorTemplate = document.querySelector('#error');
+const successTemplate = document.querySelector('#success');
+
 
 effectLevel.classList.add('hidden');
 let activeFilter = 'none';
@@ -27,7 +29,7 @@ noUiSlider.create(
       min: 0,
       max: 100,
     },
-    start: 10,
+    start: 0,
   }
 );
 
@@ -38,6 +40,7 @@ sliderElement.noUiSlider.on('update', () => {
 
 effectsInputs.forEach((input) => {
   input.addEventListener('click', () => {
+
     effects.forEach((effect) => {
       if (imgPreview.classList.contains(effect)) {
         imgPreview.classList.remove(effect);
@@ -46,10 +49,11 @@ effectsInputs.forEach((input) => {
 
     activeFilter = input.value;
     input.checked = true;
-    imgPreview.classList.add(`effects__preview--${activeFilter}`);
+    if (activeFilter !== 'none') { imgPreview.classList.add(`effects__preview--${activeFilter}`); }
     imgPreview.style.filter = '';
     if (activeFilter === 'none') {
       effectLevel.classList.add('hidden');
+      effectLevelValue.value = '0';
     }else {
       effectLevel.classList.remove('hidden');
       sliderElement.noUiSlider.updateOptions(effectsParams[activeFilter]['noui']);
@@ -58,16 +62,66 @@ effectsInputs.forEach((input) => {
   });
 });
 
+const closeEditor = () => {
+  photoEditor.classList.add('hidden');
+  document.body.classList.remove('modal-open');
+
+  activeFilter = 'none';
+
+  effects.forEach((effect) => {
+    if (imgPreview.classList.contains(effect)) {
+      imgPreview.classList.remove(effect);
+    }
+  });
+
+  imgPreview.style.filter = '';
+  effectsInputs[0].checked = true;
+  effectLevel.classList.add('hidden');
+  uploadFile.value = '';
+  hashtagInput.value = '';
+  commentInput.value = '';
+  effectLevelValue.value = '0';
+  scaleControlValue.value = '100%';
+  submitFormButton.disabled = false;
+};
+
+const createSuccesBlock = () => {
+  const successCopy = successTemplate.cloneNode(true).content.querySelector('.success');
+
+  successCopy.addEventListener(
+    'click',
+    (evt) => {
+      if (evt.target.className !== 'success__inner' && evt.target.className !== 'success__title') {
+        document.body.removeChild(successCopy);
+        closeEditor();
+      }
+    });
+  document.body.appendChild(successCopy);
+};
+
+const createErrorBlock = (text) => {
+  const errorCopy = errorTemplate.cloneNode(true).content.querySelector('.error');
+  errorCopy.querySelector('.error__title').textContent = text;
+
+  errorCopy.addEventListener(
+    'click',
+    (evt) => {
+      if (evt.target.className !== 'error__inner' && evt.target.className !== 'error__title') {
+        document.body.removeChild(errorCopy);
+        closeEditor();
+      }
+    });
+  document.body.appendChild(errorCopy);
+};
+
 submitFormButton.addEventListener(
   'click', (evt) => {
     evt.preventDefault();
-    // errorTextBox = document.querySelector('.img-upload__field-wrapper');
     sendData(
-      () => {
-        errorSubmitText.classList.remove('hidden');
-      }
-      , new FormData(form));
-})
+      createErrorBlock,
+      createSuccesBlock,
+      new FormData(form));
+  });
 
 const validator = new Pristine(
   form,
@@ -76,16 +130,6 @@ const validator = new Pristine(
     errorTextParent: 'img-upload__field-wrapper'
   }
 );
-
-const closeEditor = () => {
-  photoEditor.classList.add('hidden');
-  document.body.classList.remove('modal-open');
-
-  uploadFile.value = '';
-  hashtagInput.value = '';
-  commentInput.value = '';
-  submitFormButton.disabled = false;
-};
 
 validator.addValidator(
   hashtagInput,
@@ -115,15 +159,23 @@ uploadFile.addEventListener(
   }
 );
 
-closephotoEditorButtom.addEventListener( 'click', closeEditor);
+closephotoEditorButtom.addEventListener('click', closeEditor);
+
 
 document.addEventListener('keydown', (evt) => {
-  if (
-    evt.key === 'Escape' &&
-    document.activeElement.tagName !== 'INPUT' &&
-    document.activeElement.tagName !== 'TEXTAREA'
-  ) { closeEditor(); }
+  if (evt.key === 'Escape') {
+    const errorBlock = document.body.querySelector('.error');
+    if (errorBlock) {
+      document.body.removeChild(errorBlock);
+    } else if (
+      document.activeElement.tagName !== 'INPUT' &&
+      document.activeElement.tagName !== 'TEXTAREA'
+    ) {
+      closeEditor();
+    }
+  }
 });
+
 
 scaleControlSmaller.addEventListener(
   'click',
