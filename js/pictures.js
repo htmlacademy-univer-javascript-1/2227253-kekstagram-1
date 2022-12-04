@@ -1,13 +1,11 @@
 import { showBigPicture } from './add-picture.js';
-
+import { getRandom } from './util.js';
 const picturesListElement = document.querySelector('.pictures');
-
 const photoTemplate = document.querySelector('#picture')
   .content
   .querySelector('.picture');
 
 const picturesFragment = document.createDocumentFragment();
-
 
 const addPictureTopicturesFragment = (picture) => {
   const { url, likes, comments } = picture;
@@ -25,11 +23,22 @@ const addPictureTopicturesFragment = (picture) => {
   picturesFragment.appendChild(pictureElement);
 };
 
-const renderPictures = (pictures) => {
-  pictures.forEach((picture) => {
-    addPictureTopicturesFragment(picture, picturesFragment);
-  } );
+const renderPictures = (pictures, option) => {
+  document.querySelectorAll('.picture').forEach((picture) => picture.remove() );
+  if (option === 'filter-default') {
+    pictures.forEach((picture) => {
+      addPictureTopicturesFragment(picture);
+    });
+  } else if (option === 'filter-random') {
+    getRandom(pictures, 10).forEach((picture) => {
+      addPictureTopicturesFragment(picture);
+    });
+  } else {
+    const picturesSorted =  Array.from(pictures);
+    picturesSorted.sort((a, b) =>  b.comments.length - a.comments.length);
+    picturesSorted.forEach((picture) => { addPictureTopicturesFragment(picture); });
+  }
   picturesListElement.appendChild(picturesFragment);
 };
 
-export { renderPictures };
+export { renderPictures, picturesFragment };
