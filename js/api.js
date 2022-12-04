@@ -1,5 +1,6 @@
 import { errorPhotos } from './data.js';
 import { createEventListenersFilter  } from './filter.js';
+import { submitFormButton } from './form.js';
 
 const filterPhoto = document.querySelector('.img-filters');
 
@@ -10,10 +11,10 @@ const getData = (render) => {
       render(photos, 'filter-default');
       createEventListenersFilter(photos);
     })
-    .catch(() => render(errorPhotos, 'filter-default'))
     .then(() => {
       filterPhoto.classList.remove('img-filters--inactive');
-    });
+    })
+    .catch(() => render(errorPhotos, 'filter-default'));
 };
 
 const sendData = (onFail, onSuccess, body) => {
@@ -25,6 +26,7 @@ const sendData = (onFail, onSuccess, body) => {
     },
   )
     .then((response) => {
+      submitFormButton.disabled = false;
       if (!response.ok) {
         if (response.status === 400) {
           onFail('Неверный формат файла!');
@@ -36,6 +38,7 @@ const sendData = (onFail, onSuccess, body) => {
       }
     })
     .catch(() => {
+      submitFormButton.disabled = false;
       onFail('Данные не отправлены!');
     });
 };

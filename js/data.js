@@ -1,4 +1,5 @@
 // import { getRandonIntegerInterval, buildComments} from './util.js';
+const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
 
 const MESSAGES = [
   'Всё отлично!',
@@ -108,4 +109,4 @@ const effectsParams = {
   }
 };
 
-export { MESSAGES, effects, effectsParams, errorPhotos };
+export { MESSAGES, effects, effectsParams, errorPhotos, FILE_TYPES };
