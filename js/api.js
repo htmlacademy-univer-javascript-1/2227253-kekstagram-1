@@ -1,10 +1,19 @@
 import { errorPhotos } from './data.js';
+import { createEventListenersFilter  } from './filter.js';
+
+const filterPhoto = document.querySelector('.img-filters');
 
 const getData = (render) => {
   fetch('https://26.javascript.pages.academy/kekstagram/data')
     .then((response) => response.json())
-    .then((photos) => render(photos)).
-    catch(() => render(errorPhotos));
+    .then((photos) => {
+      render(photos, 'filter-default');
+      createEventListenersFilter(photos);
+    })
+    .catch(() => render(errorPhotos, 'filter-default'))
+    .then(() => {
+      filterPhoto.classList.remove('img-filters--inactive');
+    });
 };
 
 const sendData = (onFail, onSuccess, body) => {

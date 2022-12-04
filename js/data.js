@@ -1,4 +1,4 @@
-import { getRandonIntegerInterval, buildComments} from './util.js';
+// import { getRandonIntegerInterval, buildComments} from './util.js';
 
 const MESSAGES = [
   'Всё отлично!',
@@ -9,13 +9,13 @@ const MESSAGES = [
   'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'
 ];
 
-const photos = Array.from({length:25}).map((_, index) => ({
-  id: index + 1,
-  url: `photos/${index + 1}.jpg`,
-  description: 'Обычная фотография',
-  likes: getRandonIntegerInterval(15, 200),
-  comments: buildComments()
-}));
+// const photos = Array.from({length:25}).map((_, index) => ({
+//   id: index + 1,
+//   url: `photos/${index + 1}.jpg`,
+//   description: 'Обычная фотография',
+//   likes: getRandonIntegerInterval(15, 200),
+//   comments: buildComments()
+// }));
 
 const errorPhotos = Array.from({length:25}).map((_, index) => ({
   id: index + 1,
@@ -108,4 +108,4 @@ const effectsParams = {
   }
 };
 
-export { MESSAGES, photos, effects, effectsParams, errorPhotos };
+export { MESSAGES, effects, effectsParams, errorPhotos };
