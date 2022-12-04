@@ -1,6 +1,6 @@
-import { photos } from './data.js';
 import { renderPictures } from './pictures.js';
 import { closeEditor } from './form.js';
+import { getData } from './api.js';
 
 closeEditor();
-renderPictures(photos);
+getData(renderPictures);
