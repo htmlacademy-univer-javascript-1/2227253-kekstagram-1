@@ -1,5 +1,6 @@
 import { effects, effectsParams } from './data.js';
 import { sendData } from './api.js';
+import { FILE_TYPES } from './data.js';
 
 const uploadFile = document.querySelector('#upload-file');
 const photoEditor = document.querySelector('.img-upload__overlay');
@@ -7,18 +8,18 @@ const closephotoEditorButtom = document.querySelector('#upload-cancel');
 const form = document.querySelector('#upload-select-image');
 const hashtagInput = form.querySelector('.text__hashtags');
 const commentInput = form.querySelector('.text__description');
-const submitFormButton = form.querySelector('.img-upload__submit');
+export const submitFormButton = form.querySelector('.img-upload__submit');
 const scaleControlSmaller = document.querySelector('.scale__control--smaller');
 const scaleControlBigger = document.querySelector('.scale__control--bigger');
 const scaleControlValue = document.querySelector('.scale__control--value');
-const imgPreview = document.querySelector('.img-upload__preview');
+const imgPreview = document.querySelector('.img-upload__preview').querySelector('img');
 const sliderElement = document.querySelector('.effect-level__slider');
 const effectLevelValue = document.querySelector('.effect-level__value');
 const effectsInputs = document.querySelectorAll('.effects__radio');
 const effectLevel = document.querySelector('.img-upload__effect-level');
 const errorTemplate = document.querySelector('#error');
 const successTemplate = document.querySelector('#success');
-
+const effectsPreview = document.querySelectorAll('.effects__preview');
 
 effectLevel.classList.add('hidden');
 let activeFilter = 'none';
@@ -79,6 +80,7 @@ const closeEditor = () => {
   effectsInputs[0].checked = true;
   effectLevel.classList.add('hidden');
   uploadFile.value = '';
+  imgPreview.src = '';
   hashtagInput.value = '';
   commentInput.value = '';
   scaleControlValue.value = '100%';
@@ -88,6 +90,12 @@ const closeEditor = () => {
 
   effectLevelValue.value = '0';
   hashtagInput.dispatchEvent(event);
+
+  imgPreview.src = 'img/upload-default-image.jpg';
+
+  for (const effectPreview of effectsPreview) {
+    effectPreview.style.backgroundImage = `url(${imgPreview.src})`;
+  }
 };
 
 const createSuccesBlock = () => {
@@ -118,9 +126,11 @@ const createErrorBlock = (text) => {
   document.body.appendChild(errorCopy);
 };
 
+
 submitFormButton.addEventListener(
   'click', (evt) => {
     evt.preventDefault();
+    submitFormButton.disabled = true;
     sendData(
       createErrorBlock,
       createSuccesBlock,
@@ -157,6 +167,18 @@ uploadFile.addEventListener(
   () => {
     photoEditor.classList.remove('hidden');
     document.body.classList.add('modal-open');
+
+    const file = uploadFile.files[0];
+    const fileName = file.name.toLowerCase();
+    const matches = FILE_TYPES.some((it) => fileName.endsWith(it));
+
+    if (matches) {
+      imgPreview.src = URL.createObjectURL(file);
+
+      for (const effectPreview of effectsPreview) {
+        effectPreview.style.backgroundImage = `url(${imgPreview.src})`;
+      }
+    }
 
     submitFormButton.disabled = false;
     scaleControlValue.value = '100%';
