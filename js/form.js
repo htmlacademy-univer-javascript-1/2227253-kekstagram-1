@@ -22,6 +22,7 @@ const successTemplate = document.querySelector('#success');
 
 effectLevel.classList.add('hidden');
 let activeFilter = 'none';
+const event = new Event('change');
 
 noUiSlider.create(
   sliderElement, {
@@ -80,9 +81,13 @@ const closeEditor = () => {
   uploadFile.value = '';
   hashtagInput.value = '';
   commentInput.value = '';
-  effectLevelValue.value = '0';
   scaleControlValue.value = '100%';
   submitFormButton.disabled = false;
+
+  form.reset();
+
+  effectLevelValue.value = '0';
+  hashtagInput.dispatchEvent(event);
 };
 
 const createSuccesBlock = () => {
@@ -153,6 +158,7 @@ uploadFile.addEventListener(
     photoEditor.classList.remove('hidden');
     document.body.classList.add('modal-open');
 
+    submitFormButton.disabled = false;
     scaleControlValue.value = '100%';
     imgPreview.style.transform = 'scale(1)';
   }
